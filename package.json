@@ -1,0 +1,20 @@
+{
+  "name": "chapter-readability-analyzer",
+  "version": "1.0.0",
+  "description": "High-accuracy book chapter readability analyzer with visual highlighting of the five hardest sentences.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "readability",
+    "flesch-kincaid",
+    "gunning-fog",
+    "coleman-liau",
+    "writing-tool",
+    "authors"
+  ],
+  "author": "Devang Patil",
+  "license": "MIT"
+}
