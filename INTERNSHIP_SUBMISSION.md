@@ -90,3 +90,19 @@ Standard AI code also miscalculates syllables using simplistic vowel counting (`
 The application is architected as a pure client-side static web application with **zero backend dependencies**:
 - **GitHub Pages**: Automatically deployed via the included GitHub Actions workflow ([`.github/workflows/deploy.yml`](https://github.com/Dev-angPatil/chapter-readability-analyzer/blob/main/.github/workflows/deploy.yml)) triggered on pushes to `main`.
 - **Alternative Free Deployments**: 1-click importable on Vercel, Netlify, or Cloudflare Pages with zero configuration needed.
+
+---
+
+## 5. How I'd Get the Tool's First 100 Users (~150 words)
+
+**Seed where authors already gather, then let the tool prove itself.**
+
+**Week 1 — Reddit & Writing Communities.** Post the tool on r/writing, r/selfpublish, and r/destructivereaders with a genuine "I built this, roast my prose" demo comparing Dickens vs. Hemingway readability scores. Each post includes the live link and a screenshot of highlighted hardest sentences. Writers sharing their own results creates organic reach.
+
+**Week 2 — Twitter/X Writing Thread.** Publish a thread: "I pasted 3 famous opening chapters into a readability analyzer. Here's what surprised me." Tag #WritingCommunity and #AmWriting. Visual before/after screenshots drive engagement.
+
+**Week 3 — Direct Value.** Offer free chapter readability audits in writing Discord servers (Shut Up & Write, NaNoWriMo). Run the tool live, share the report, link the tool.
+
+**Week 4 — SEO Compounding.** Publish a blog post: "What Grade Level Is Your Novel? Free Tool Inside" targeting long-tail search keywords like "book chapter readability checker."
+
+The key: every touchpoint demonstrates instant, visible value — paste, score, see your hardest sentences — in under 5 seconds. No signup, no paywall, zero friction.
