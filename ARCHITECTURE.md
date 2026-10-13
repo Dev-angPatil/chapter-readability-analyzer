@@ -8,14 +8,13 @@ Chapter Readability Lens is an ultra-fast, zero-dependency, client-side web appl
 
 ```mermaid
 flowchart TD
-    User([Author / Reviewer]) -->|Pastes Chapter Text| UI[Editor View]
-    User -->|Or selects Sample Chapter| Samples[Sample Chapter Preloader]
-    Samples --> UI
+    User([Author / Reviewer]) -->|Opens App| Notebook[State 1: Blank Tactile Notebook]
+    User -->|Pastes Chapter or clicks Sample| Loader[State 2: Staged Analyzing Animation]
+    
+    Loader --> Controller[App Controller / State Manager]
+    Controller --> Engine[Client-Side Readability Engine]
 
-    UI --> Controller[App Controller / State Manager]
-    Controller --> Engine[Readability Engine]
-
-    subgraph Engine Pipeline
+    subgraph Engine Pipeline [Browser-Local Execution Engine]
         Engine --> Tokenizer[Literary Tokenizer]
         Tokenizer -->|Dialogue attribution check| Sentences[Sentence Segments with Offsets]
         Tokenizer --> Words[Word & Contraction Extractor]
@@ -37,17 +36,30 @@ flowchart TD
     TopFive --> Inspector[Hardest Sentences Inspector]
     TopFive & Sentences --> ProseView[Annotated Prose Highlighting View]
     
+    Dashboard & Inspector & ProseView --> Results[State 3: Complete Feedback Dashboard]
+    Results -.->|Return to Notebook| Notebook
     Inspector -.->|Click to Jump & Focus| ProseView
-    Dashboard & Inspector & ProseView --> DOM[Rendered UI]
 ```
 
 ## Data Flow & Processing Pipeline
 
-1. **Input Ingestion**:
-   - The user inputs raw text or selects a classic prose benchmark.
-   - Text is normalized without losing paragraph breaks (`\n\n`) or typographic punctuation.
+1. **State 1: Blank Notebook (Input Ingestion)**:
+   - On page load, the user interacts with an uncluttered parchment notebook canvas.
+   - The user pastes raw chapter text (or selects a benchmark sample).
+   - A `paste` event listener immediately detects the input and initiates the analysis workflow.
 
-2. **Literary Tokenization (`tokenizer.js`)**:
+2. **State 2: Staged Analyzing Animation**:
+   - The UI displays a literary scanning beam and multi-phase status updates:
+     - 1. Tokenizing literary sentences & preserving dialogue
+     - 2. Calculating syllable cadence & Flesch-Kincaid indices
+     - 3. Isolating the 5 hardest sentences
+   - Gives the user a tangible, satisfying sensation of thorough textual evaluation before rendering.
+
+3. **State 3: Results Dashboard**:
+   - Smoothly reveals readability scorecards, annotated manuscript prose with ranked `#1`–`#5` badges, and the hardest sentences inspector.
+   - Provides an immediate "← Return to Notebook" button to revise or test another chapter.
+
+4. **Literary Tokenization (`tokenizer.js`)**:
    - Scans text character by character.
    - Guardrails honorific abbreviations (`Dr.`, `Mr.`, `Mrs.`, `Prof.`, `St.`, `vol.`, `ch.`).
    - Dialogue preservation: When punctuation inside a quote (`!"`, `?"`) is followed by lowercase speech attribution (`said`, `whispered`, `he`, `she`), the sentence continues.

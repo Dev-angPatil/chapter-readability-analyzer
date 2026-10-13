@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chapter Readability Lens | Editorial Readability & Hardest Sentences Analyzer</title>
   <meta name="description" content="Precision chapter readability analyzer for authors. Calculates Flesch Reading Ease, Grade Level, and interactively highlights the 5 hardest sentences.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
   <link rel="stylesheet" href="src/styles.css">
 </head>
 <body>
   <!-- Header -->
   <header class="site-header">
     <div class="header-container">
-      <div class="brand">
+      <div class="brand" id="brandHome" role="button" tabindex="0" title="Return to Notebook">
         <div class="brand-icon">§</div>
         <div class="brand-text">
           <h1>Chapter Readability Lens</h1>
@@ -21,154 +21,212 @@
       </div>
 
       <div class="header-actions">
-        <span class="sample-label">Load Sample:</span>
-        <button class="btn btn-sample" data-sample="dickens" title="Charles Dickens: Victorian, multi-clause dense prose">
-          📖 Dickens (Dense)
+        <!-- Return to Notebook button (active on results view) -->
+        <button class="btn btn-secondary btn-nav-notebook" id="btnReturnNotebook" style="display: none;" title="Return to notebook to edit or paste new chapter">
+          ← Return to Notebook
         </button>
-        <button class="btn btn-sample" data-sample="hemingway" title="Ernest Hemingway: Punchy, accessible short sentences">
-          🌊 Hemingway (Crisp)
-        </button>
-        <button class="btn btn-sample" data-sample="austen" title="Jane Austen: Classic narrative voice and dialogue">
-          🏛️ Austen (Balanced)
-        </button>
-        <button class="btn btn-secondary" id="btnCopyReport" title="Copy markdown scorecard to clipboard">
+        <button class="btn btn-secondary" id="btnCopyReport" style="display: none;" title="Copy markdown scorecard to clipboard">
           📋 Copy Report
         </button>
-        <button class="btn btn-ghost" id="btnClear" title="Clear input text">
-          ✕ Clear
+
+        <!-- Sample buttons -->
+        <span class="sample-label">Try Sample:</span>
+        <button class="btn btn-sample" data-sample="dickens" title="Charles Dickens: Victorian, multi-clause dense prose">
+          📖 Dickens
+        </button>
+        <button class="btn btn-sample" data-sample="hemingway" title="Ernest Hemingway: Punchy, accessible short sentences">
+          🌊 Hemingway
+        </button>
+        <button class="btn btn-sample" data-sample="austen" title="Jane Austen: Classic narrative voice and dialogue">
+          🏛️ Austen
         </button>
       </div>
     </div>
   </header>
 
-  <!-- App Layout -->
+  <!-- App Main Layout -->
   <main class="app-container">
-    <!-- Top Metric Banner -->
-    <section class="metrics-banner" aria-label="Readability Metrics">
-      <!-- Flesch Reading Ease -->
-      <article class="metric-card hero-ease">
-        <div class="metric-header">
-          <span class="metric-label">Flesch Reading Ease</span>
-          <span class="badge-band" id="badgeReadingEase">Calculating...</span>
-        </div>
-        <div class="metric-value-wrap">
-          <span class="metric-number" id="valReadingEase">--</span>
-          <span class="metric-subtext">/ 100</span>
-        </div>
-        <p class="metric-subtext" id="descReadingEase">Evaluating narrative accessibility</p>
-      </article>
 
-      <!-- Flesch-Kincaid Grade Level -->
-      <article class="metric-card hero-grade">
-        <div class="metric-header">
-          <span class="metric-label">Grade Level</span>
-          <span class="meta-pill">US School</span>
+    <!-- STATE 1: BLANK NOTEBOOK VIEW -->
+    <section class="notebook-section" id="viewNotebook" aria-label="Author Notebook">
+      <div class="notebook-shell">
+        <div class="notebook-binding">
+          <div class="binding-stitch"></div>
+          <div class="binding-stitch"></div>
+          <div class="binding-stitch"></div>
+          <div class="binding-stitch"></div>
+          <div class="binding-stitch"></div>
+          <div class="binding-stitch"></div>
+          <div class="binding-stitch"></div>
+          <div class="binding-stitch"></div>
         </div>
-        <div class="metric-value-wrap">
-          <span class="metric-number" id="valGradeLevel">--</span>
-        </div>
-        <p class="metric-subtext" id="subGradeLevel">Target grade comprehension</p>
-      </article>
 
-      <!-- Gunning Fog Index -->
-      <article class="metric-card">
-        <div class="metric-header">
-          <span class="metric-label">Gunning Fog Index</span>
-          <span class="meta-pill">Prose Fog</span>
-        </div>
-        <div class="metric-value-wrap">
-          <span class="metric-number" id="valGunningFog">--</span>
-        </div>
-        <p class="metric-subtext">Years of formal education required</p>
-      </article>
+        <div class="notebook-page">
+          <div class="notebook-header-rule">
+            <div class="notebook-title-wrap">
+              <span class="notebook-glyph">✒️</span>
+              <span class="notebook-title">Draft Chapter Manuscript</span>
+            </div>
+            <div class="notebook-meta">
+              <span class="privacy-badge" title="Zero cloud calls. 100% private in your browser.">🔒 100% Private (Runs In-Browser)</span>
+              <span class="stats-counter" id="notebookStats">
+                <span><strong id="liveWordCount">0</strong> words</span>
+                <span class="dot-separator">•</span>
+                <span><strong id="liveCharCount">0</strong> chars</span>
+              </span>
+            </div>
+          </div>
 
-      <!-- Coleman-Liau Index -->
-      <article class="metric-card">
-        <div class="metric-header">
-          <span class="metric-label">Coleman-Liau</span>
-          <span class="meta-pill">Character-based</span>
-        </div>
-        <div class="metric-value-wrap">
-          <span class="metric-number" id="valColemanLiau">--</span>
-        </div>
-        <p class="metric-subtext">Immune to syllable miscounting</p>
-      </article>
+          <div class="notebook-editor-wrap">
+            <textarea
+              id="chapterInput"
+              class="notebook-textarea"
+              placeholder="Paste your chapter here...&#10;&#10;Dialogue, complex paragraphs, and full scenes are supported. As soon as you paste, readability metrics and your 5 hardest sentences will be analyzed instantly."
+              aria-label="Chapter Text Input"
+              spellcheck="true"
+            ></textarea>
+          </div>
 
-      <!-- Reading Time & Vocabulary -->
-      <article class="metric-card">
-        <div class="metric-header">
-          <span class="metric-label">Reading Time</span>
-          <span class="meta-pill">@ 220 wpm</span>
+          <div class="notebook-footer-rule">
+            <div class="notebook-hints">
+              <span>💡 <em>Tip:</em> Simply <strong>paste</strong> anywhere in this notebook to trigger instant analysis, or click a classic sample above.</span>
+            </div>
+            <div class="notebook-actions">
+              <button class="btn btn-ghost" id="btnClearNotebook">✕ Clear</button>
+              <button class="btn btn-primary" id="btnAnalyzeNotebook">✦ Analyze Chapter</button>
+            </div>
+          </div>
         </div>
-        <div class="metric-value-wrap">
-          <span class="metric-number" id="valReadingTime">--</span>
-        </div>
-        <p class="metric-subtext">Complex Words: <strong id="valComplexWords">--</strong></p>
-      </article>
+      </div>
     </section>
 
-    <!-- Workspace Grid -->
-    <div class="workspace-grid">
-      <!-- Left: Editor & Annotated Prose -->
-      <section class="canvas-panel">
-        <div class="canvas-toolbar">
-          <div class="view-tabs" role="tablist">
-            <button class="tab-btn" id="tabEditor" role="tab" aria-selected="false">
-              ✏️ Chapter Editor
-            </button>
-            <button class="tab-btn active" id="tabProse" role="tab" aria-selected="true">
-              📖 Prose & Highlights
-            </button>
-          </div>
-
-          <div class="stats-counter" aria-live="polite">
-            <span>Words: <strong id="liveWordCount">0</strong></span>
-            <span>Sentences: <strong id="liveSentenceCount">0</strong></span>
-            <span>Chars: <strong id="liveCharCount">0</strong></span>
-          </div>
-
-          <button class="btn btn-primary" id="btnAnalyze">
-            ✦ Analyze Readability
-          </button>
+    <!-- STATE 2: ANALYZING LOADING ANIMATION VIEW -->
+    <section class="analyzing-section" id="viewAnalyzing" style="display: none;" aria-live="polite" aria-label="Analyzing Progress">
+      <div class="analyzing-card">
+        <div class="analyzing-animation-wrap">
+          <div class="quill-pulse">🖋️</div>
+          <div class="scanning-beam"></div>
         </div>
-
-        <!-- Editor Tab Wrap -->
-        <div class="editor-wrap" id="editorWrap" style="display: none;">
-          <textarea
-            id="chapterInput"
-            class="chapter-textarea"
-            placeholder="Paste your chapter here... Dialogue, complex paragraphs, and full scenes are supported."
-            aria-label="Chapter Text Input"
-          ></textarea>
+        <h2 class="analyzing-title">Analyzing Chapter Prose...</h2>
+        <p class="analyzing-status" id="analyzingStatusText">Scanning sentence boundaries and dialogue attributions...</p>
+        <div class="analyzing-progress-bar">
+          <div class="progress-bar-fill" id="analyzingProgressFill"></div>
         </div>
-
-        <!-- Annotated Prose Wrap -->
-        <div class="prose-container" id="proseWrap">
-          <div class="prose-header">
-            <h2>Annotated Chapter Prose</h2>
-            <span class="metric-subtext">Click any highlighted sentence to inspect recommendations</span>
-          </div>
-          <div class="prose-content" id="proseContent">
-            <!-- Dynamic annotated paragraphs rendered by app.js -->
-          </div>
+        <div class="analyzing-steps">
+          <span class="step-chip active" id="stepChip1">1. Tokenizing</span>
+          <span class="step-chip" id="stepChip2">2. Syllable Cadence</span>
+          <span class="step-chip" id="stepChip3">3. Isolating 5 Hardest</span>
         </div>
+      </div>
+    </section>
+
+    <!-- STATE 3: COMPLETE FEEDBACK / RESULTS VIEW -->
+    <section class="results-section" id="viewResults" style="display: none;" aria-label="Readability Results Dashboard">
+      <!-- Top Metric Banner -->
+      <section class="metrics-banner" aria-label="Readability Metrics">
+        <!-- Flesch Reading Ease -->
+        <article class="metric-card hero-ease">
+          <div class="metric-header">
+            <span class="metric-label">Flesch Reading Ease</span>
+            <span class="badge-band" id="badgeReadingEase">Calculating...</span>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-number" id="valReadingEase">--</span>
+            <span class="metric-subtext">/ 100</span>
+          </div>
+          <p class="metric-subtext" id="descReadingEase">Evaluating narrative accessibility</p>
+        </article>
+
+        <!-- Flesch-Kincaid Grade Level -->
+        <article class="metric-card hero-grade">
+          <div class="metric-header">
+            <span class="metric-label">Grade Level</span>
+            <span class="meta-pill">US School</span>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-number" id="valGradeLevel">--</span>
+          </div>
+          <p class="metric-subtext" id="subGradeLevel">Target grade comprehension</p>
+        </article>
+
+        <!-- Gunning Fog Index -->
+        <article class="metric-card">
+          <div class="metric-header">
+            <span class="metric-label">Gunning Fog Index</span>
+            <span class="meta-pill">Prose Fog</span>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-number" id="valGunningFog">--</span>
+          </div>
+          <p class="metric-subtext">Years of formal education required</p>
+        </article>
+
+        <!-- Coleman-Liau Index -->
+        <article class="metric-card">
+          <div class="metric-header">
+            <span class="metric-label">Coleman-Liau</span>
+            <span class="meta-pill">Character-based</span>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-number" id="valColemanLiau">--</span>
+          </div>
+          <p class="metric-subtext">Immune to syllable miscounting</p>
+        </article>
+
+        <!-- Reading Time & Vocabulary -->
+        <article class="metric-card">
+          <div class="metric-header">
+            <span class="metric-label">Reading Time</span>
+            <span class="meta-pill">@ 220 wpm</span>
+          </div>
+          <div class="metric-value-wrap">
+            <span class="metric-number" id="valReadingTime">--</span>
+          </div>
+          <p class="metric-subtext">Complex Words: <strong id="valComplexWords">--</strong></p>
+        </article>
       </section>
 
-      <!-- Right: Hardest Sentences Inspector -->
-      <aside class="inspector-panel" aria-label="Hardest Sentences Inspector">
-        <div class="inspector-header">
-          <h3>5 Hardest Sentences</h3>
-          <span class="meta-pill">Ranked #1–#5</span>
-        </div>
-        <p class="inspector-intro">
-          Isolating sentences with high cognitive fatigue, polysyllabic density, and clause sprawl. Click any card to jump directly to it in the text.
-        </p>
+      <!-- Workspace Grid -->
+      <div class="workspace-grid">
+        <!-- Left: Annotated Prose -->
+        <section class="canvas-panel">
+          <div class="canvas-toolbar">
+            <div class="prose-nav-title">
+              <span>📖 Annotated Chapter Prose</span>
+              <span class="badge-hint">Click any highlighted sentence to inspect recommendations</span>
+            </div>
 
-        <div class="sentence-card-list" id="sentenceCardList">
-          <!-- Dynamic cards rendered by app.js -->
-        </div>
-      </aside>
-    </div>
+            <div class="stats-counter" aria-live="polite">
+              <span>Words: <strong id="resultsWordCount">0</strong></span>
+              <span class="dot-separator">•</span>
+              <span>Sentences: <strong id="resultsSentenceCount">0</strong></span>
+            </div>
+          </div>
+
+          <!-- Annotated Prose Content -->
+          <div class="prose-container" id="proseWrap">
+            <div class="prose-content" id="proseContent">
+              <!-- Dynamic annotated paragraphs rendered by app.js -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Right: Hardest Sentences Inspector -->
+        <aside class="inspector-panel" aria-label="Hardest Sentences Inspector">
+          <div class="inspector-header">
+            <h3>5 Hardest Sentences</h3>
+            <span class="meta-pill">Ranked #1–#5</span>
+          </div>
+          <p class="inspector-intro">
+            Ranked by cognitive fatigue, polysyllabic density, and clause sprawl. Click any card to jump directly to it in your manuscript.
+          </p>
+
+          <div class="sentence-card-list" id="sentenceCardList">
+            <!-- Dynamic cards rendered by app.js -->
+          </div>
+        </aside>
+      </div>
+    </section>
   </main>
 
   <!-- Notification Toast -->

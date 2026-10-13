@@ -11,16 +11,17 @@ Furthermore, naive NLP tools mangle literary prose:
 As a result, authors either receive distorted scores or have to manually hunt through thousands of words to find sentences causing cognitive friction.
 
 ## Target User Experience
-1. **Frictionless Entry**: The author pastes an entire draft chapter into a distraction-free, warm literary canvas.
-2. **Instant Precision Analytics**: In less than 50 milliseconds, the app analyzes the entire chapter, displaying:
+1. **Blank Tactile Notebook**: When opened, the author is greeted with a clean, distraction-free manuscript notebook on warm parchment paper. Zero clutter or empty scorecard boxes.
+2. **Instant Paste & Analyzing Animation**: Pasting text directly triggers a dedicated editorial scanning animation ("Tokenizing dialogue...", "Calculating syllable cadence...", "Isolating 5 hardest sentences..."), giving a tactile sense of analysis.
+3. **Comprehensive Editorial Dashboard**:
    - Flesch Reading Ease (with plain-language interpretation)
-   - Flesch-Kincaid Grade Level
-   - Gunning Fog & Coleman-Liau indices
+   - Flesch-Kincaid Grade Level & Gunning Fog / Coleman-Liau indices
    - Estimated Reading Time and vocabulary complexity
-3. **Interactive 5 Hardest Sentences**:
+4. **Interactive 5 Hardest Sentences**:
    - The prose view cleanly highlights the **five hardest sentences** with subtle warm amber/terracotta tints and numbered badges (`#1` through `#5`).
    - A companion **Hardest Sentences Inspector** details the exact diagnostic reason for each sentence's difficulty (length fatigue, polysyllabic cluster, nested clauses) and provides a 1-click **Jump to Sentence** action with smooth scroll and visual focus glow.
-4. **Zero-Setup Quick Demos**: One-click loaders featuring famous literary chapters (Charles Dickens vs. Ernest Hemingway vs. Jane Austen) so reviewers and authors can immediately test and contrast different prose densities.
+   - 1-click **Return to Notebook** action to edit draft or paste a new chapter anytime.
+5. **Zero-Setup Quick Demos**: One-click loaders featuring famous literary chapters (Charles Dickens vs. Ernest Hemingway vs. Jane Austen) so reviewers and authors can immediately test and contrast different prose densities.
 
 ## Success Criteria
 - **100% Client-Side Privacy**: Chapter text never leaves the author's browser.

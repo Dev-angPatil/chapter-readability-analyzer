@@ -7,6 +7,8 @@
 
 ## 🌟 Features
 
+- **Blank Tactile Notebook UI**: Opens as a distraction-free, warm manuscript notebook with binding stitch details and clean ruled lines. Zero empty metric clutter on load.
+- **Paste-Triggered Analyzing Animation**: Simply pasting text immediately initiates an editorial scanning animation ("Tokenizing dialogue...", "Calculating syllable cadence...", "Isolating 5 hardest sentences...").
 - **Accurate Literary Tokenization**: Protects against false sentence splitting on dialogue attributions (`"Wait!" cried Watson.` = 1 sentence), abbreviations (`Dr. Jekyll`, `Mr. Darcy`), ellipses (`...`), and decimals (`3.14`).
 - **Comprehensive Readability Suite**:
   - **Flesch Reading Ease**: Scaled 0–100 with qualitative band interpretation (Very Easy, Standard, Difficult, Academic).
@@ -18,6 +20,7 @@
   - Automatically isolates and highlights the 5 most cognitively taxing sentences directly in the chapter prose with ranked badges (`#1` through `#5`).
   - An interactive **Inspector Sidebar** breaks down word count, syllable load, complex words, and actionable editorial recommendations (e.g., splitting compound clauses).
   - **1-Click Jump**: Click any card in the inspector to smoothly scroll and highlight the sentence in the text with a visual pulse glow.
+  - **1-Click Return**: "← Return to Notebook" button to edit your chapter or paste a new one anytime.
 - **Literary Benchmark Pre-loaders**: Instant 1-click loaders for Charles Dickens (*A Tale of Two Cities*), Ernest Hemingway (*The Old Man and the Sea*), and Jane Austen (*Pride and Prejudice*).
 - **100% Client-Side Privacy**: Operates entirely in the user's browser with zero backend data transmission.
 - **Ember Studio Design System**: Clean terracotta warmth (`#C2410C`), amber accents, and editorial typography (`Playfair Display` + `Source Sans 3`).
